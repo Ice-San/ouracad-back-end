@@ -21,3 +21,4 @@ export const getUsers = async (req: Request, res: Response) => {
         data
     });
 }
+
