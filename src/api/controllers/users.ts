@@ -23,12 +23,12 @@ export const getUsers = async (req: Request, res: Response) => {
 }
 
 export const getUser = async (req: Request, res: Response) => {
-    const { email } = req.params;
+    const { email } = req.body;
     
     if (!email) {
         res.status(400).send({
             status: 400,
-            message: 'Email not found!'
+            message: 'Not found!'
         });
         return;
     }
@@ -36,7 +36,7 @@ export const getUser = async (req: Request, res: Response) => {
     if (typeof email === "undefined") {
         res.status(400).send({
             status: 400,
-            message: 'Something went wrong with email!'
+            message: 'Something went wrong!'
         });
         return;
     }
@@ -44,7 +44,7 @@ export const getUser = async (req: Request, res: Response) => {
     if (typeof email !== "string") {
         res.status(400).send({
             status: 400,
-            message: 'Something went wrong with email!'
+            message: 'Something went wrong!'
         });
         return;
     }
@@ -56,7 +56,7 @@ export const getUser = async (req: Request, res: Response) => {
     if (!data) {
         res.status(400).send({
             status: 400,
-            message: 'Email not found!'
+            message: 'Not found!'
         });
         return;
     }

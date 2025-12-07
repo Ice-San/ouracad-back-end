@@ -4,4 +4,4 @@ import { getUsers, getUser } from "../controllers/users";
 
 export default Router()
                     .get("/", getUsers)
-                    .get("/:email", getUser);
+                    .post("/details", getUser);
