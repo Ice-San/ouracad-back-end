@@ -9,7 +9,11 @@
     "rootDir": "./src",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"]
+      "@controllers/*": ["src/api/controllers/*"],
+      "@routes/*": ["src/api/routes/*"],
+      "@db/*": ["src/db/*"],
+      "@helpers/*": ["src/helpers/*"],
+      "@middleware/*": ["src/middleware/*"]
     },
     "moduleResolution": "node",
     "strict": true,

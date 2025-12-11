@@ -1,6 +1,6 @@
 import { Router } from "express";
 
-import { getUsers, getUser, createUser } from "../controllers/users";
+import { getUsers, getUser, createUser } from "@controllers/users";
 
 export default Router()
                     .get("/", getUsers)

@@ -1,8 +1,8 @@
 import { Request, Response, Router } from "express";
 
-import client from "@/db/client";
+import client from "@db/client";
 
-import { splitNames } from "@/utils/splitNames";
+import { splitNames } from "@helpers/splitNames";
 
 export const getUsers = async (req: Request, res: Response) => {
     try {
