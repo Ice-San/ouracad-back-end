@@ -123,7 +123,7 @@ export const createUser = async (req: Request, res: Response) => {
           email,
           password,
           role,
-          course  
+          course.toUpperCase()
         ];
         const result = await client.query(query, values);
         const data = result.rows[0].create_user;
@@ -131,7 +131,8 @@ export const createUser = async (req: Request, res: Response) => {
         if(data < 1) {
             res.status(400).send({
                 status: 400,
-                message: 'User already exists!'
+                message: 'User already exists!',
+                exists: true
             });
             return;
         }
