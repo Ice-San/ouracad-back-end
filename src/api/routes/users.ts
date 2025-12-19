@@ -1,8 +1,9 @@
 import { Router } from "express";
 
-import { getUsers, getUser, createUser } from "@controllers/users";
+import { getUsers, getUser, createUser, deleteUser } from "@controllers/users";
 
 export default Router()
                     .get("/", getUsers)
                     .post("/details", getUser)
-                    .post("/", createUser);
+                    .post("/", createUser)
+                    .delete("/", deleteUser);

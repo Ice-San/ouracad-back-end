@@ -84,4 +84,4 @@ export const updateCourse = async (req: Request, res: Response) => {
             message: "Something went wrong when trying to update Courses!"
         });
     }
-}
+} 

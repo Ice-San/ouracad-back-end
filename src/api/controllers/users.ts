@@ -150,3 +150,51 @@ export const createUser = async (req: Request, res: Response) => {
         });
     }
 }
+
+export const deleteUser = async (req: Request, res: Response) => {
+    const { email } = req.body;
+
+    if(typeof email === "undefined") {
+        res.status(400).send({
+            status: 400, 
+            message: "Something went wrong when trying to delete a User!"
+        });
+        return;
+    }
+
+    if(typeof email !== "string") {
+        res.status(400).send({
+            status: 400,
+            message: "Something went wrong when trying to delete a User!"
+        });
+        return;
+    }
+
+    try {
+        const query = "SELECT * FROM delete_user($1)";
+        const result = await client.query(query, [email]);
+        const data = result.rows[0].delete_user;
+
+        if(!data) {
+            res.status(400).send({
+                status: 400,
+                message: "Something went wrong when trying to delete a User!"
+            });
+            return;
+        }
+
+        res.status(200).send({
+            status: 200,
+            message: "User was deleted with success!",
+            data: {
+                success: true
+            }
+        });
+    } catch (err) {
+        console.error("Something went wrong:", err);
+        res.status(400).send({
+            status: 400,
+            message: "Something went wrong when trying to delete a User!"
+        });
+    }
+}
