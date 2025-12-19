@@ -60,8 +60,8 @@ export const getUser = async (req: Request, res: Response) => {
     }
 
     try {
-        const query: string = `SELECT * FROM get_user('${email}')`;
-        const result = await client.query(query);
+        const query: string = `SELECT * FROM get_user($1)`;
+        const result = await client.query(query, [email]);
         const data = result.rows;
 
         if (!data) {

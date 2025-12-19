@@ -1,5 +1,6 @@
-import { getCourses } from "@controllers/courses";
+import { getCourses, updateCourse } from "@controllers/courses";
 import { Router } from "express";
 
 export default Router()
-                    .get("/", getCourses);
+                    .get("/", getCourses)
+                    .put("/", updateCourse);
