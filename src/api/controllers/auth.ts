@@ -11,7 +11,7 @@ export const signin = async (req: Request, res: Response) => {
         res.status(400).send({
             status: 400,
             message: "Something went wrong!"
-        })
+        });
         return;
     }
 
@@ -19,7 +19,7 @@ export const signin = async (req: Request, res: Response) => {
         res.status(400).send({
             status: 400,
             message: "Something went wrong!"
-        })
+        });
         return;
     }
 
