@@ -1,5 +1,6 @@
 import { Router } from "express";
-import { signin } from "@controllers/auth";
+import { signin, validation } from "@controllers/auth";
 
 export default Router()
-                    .post("/signin", signin);
+                    .post("/signin", signin)
+                    .post("/validation", validation);

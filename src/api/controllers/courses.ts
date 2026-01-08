@@ -30,9 +30,9 @@ export const getCourses = async (_req: Request, res: Response) => {
 }
 
 export const getCourse = async (req: Request, res: Response) => {
-    const { courseName } = req.body;
+    const { courseName, courseYear } = req.body;
 
-    if(typeof courseName === "undefined") {
+    if(typeof courseName === "undefined" || typeof courseYear === "undefined") {
         res.status(400).send({
             status: 400,
             message: "Something went wrong when trying to get a course!"
@@ -40,7 +40,7 @@ export const getCourse = async (req: Request, res: Response) => {
         return;
     }
 
-    if(typeof courseName !== "string") {
+    if(typeof courseName !== "string" || typeof courseYear !== "number") {
         res.status(400).send({
             status: 400,
             message: "Something went wrong when trying to get a course!"
@@ -49,8 +49,8 @@ export const getCourse = async (req: Request, res: Response) => {
     }
 
     try {
-        const query: string = "SELECT * FROM get_course($1)";
-        const result = await client.query(query, [courseName]);
+        const query: string = "SELECT * FROM get_course($1, $2)";
+        const result = await client.query(query, [courseName, courseYear]);
         const data = result.rows[0];
 
         if(!data) {
@@ -134,9 +134,9 @@ export const updateCourse = async (req: Request, res: Response) => {
 }
 
 export const deleteCourse = async (req: Request, res: Response) => {
-    const { courseName } = req.body;
+    const { courseName, year } = req.body;
 
-    if(typeof courseName === "undefined") {
+    if(typeof courseName === "undefined" || typeof year === "undefined") {
         res.status(400).send({
             status: 400,
             message: "Something went wrong when trying to delete a course!"
@@ -144,7 +144,7 @@ export const deleteCourse = async (req: Request, res: Response) => {
         return;
     }
 
-    if(typeof courseName !== "string") {
+    if(typeof courseName !== "string" || typeof year !== "number") {
         res.status(400).send({
             status: 400,
             message: "Something went wrong when trying to delete a course!"
@@ -153,8 +153,8 @@ export const deleteCourse = async (req: Request, res: Response) => {
     }
 
     try {
-        const query: string = "SELECT * FROM delete_course($1)";
-        const result = await client.query(query, [courseName]);
+        const query: string = "SELECT * FROM delete_course($1, $2)";
+        const result = await client.query(query, [courseName, year]);
         const data = result.rows[0].delete_course;
 
         if(!data) {

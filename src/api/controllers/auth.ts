@@ -3,6 +3,9 @@ import { Request, Response } from "express";
 import client from "@db/client";
 
 import { generateToken } from "@helpers/generateToken";
+import jsonwebtoken from 'jsonwebtoken';
+
+const { JWT_KEY } = process.env;
 
 export const signin = async (req: Request, res: Response) => {
     const { email, password } = req.body;
@@ -52,4 +55,42 @@ export const signin = async (req: Request, res: Response) => {
             message: 'Something went wrong!'
         });
     }
+}
+
+export const validation = async (req: Request, res: Response) => {
+    const { token } = req.body;
+
+    jsonwebtoken.verify(token, JWT_KEY as string, async (err: any, payload: any) => {
+        if(err) {
+            res.status(401).json({
+                status: 401,
+                message: 'Unauthorized!',
+                data: {
+                    success: false
+                }
+            });
+            return;
+        }
+
+        const userId = payload?.userId;
+
+        if(userId) {
+            res.status(200).json({
+                status: 200,
+                message: 'Authorized!',
+                data: {
+                    success: true
+                }
+            });
+            return;
+        }
+
+        res.status(401).json({
+            status: 401,
+            message: 'Unauthorized!',
+            data: {
+                success: false
+            }
+        });
+    });
 }
