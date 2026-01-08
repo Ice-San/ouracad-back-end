@@ -151,6 +151,53 @@ export const createUser = async (req: Request, res: Response) => {
     }
 }
 
+export const updateUser = async (req: Request, res: Response) => {
+    const { email, firstName, lastName, course, role, status } = req.body;
+
+    if(typeof email === "undefined" || typeof firstName === "undefined" || typeof lastName === "undefined" || typeof course === "undefined" || typeof role === "undefined" || typeof status === "undefined") {
+        res.status(400).send({
+            status: 400,
+            message: "Something went wrong when trying to update a User!"
+        });
+        return;
+    }
+
+    if(typeof email !== "string" || typeof firstName !== "string" || typeof lastName !== "string" || typeof course !== "string" || typeof role !== "string" || typeof status !== "string") {
+        res.status(400).send({
+            status: 400,
+            message: "Something went wrong when trying to update a User!"
+        });
+        return;
+    }
+
+    try {
+        const query: string = "SELECT * FROM update_user($1, $2, $3, $4, $5, $6)";
+        const values: string[] = [email, firstName, lastName, course, role, status];
+        const result = await client.query(query, values);
+        const data = result.rows[0];
+
+        if(!data) {
+            res.status(400).send({
+                status: 400,
+                message: "Something went wrong before trying to update an user!"
+            });
+            return;
+        }
+
+        res.status(200).send({
+            status: 200,
+            message: "User was updated successfully!",
+            success: 1
+        });
+    } catch(err) {
+        console.error("Something went wrong:", err);
+        res.status(400).send({
+            status: 400,
+            message: "Something went wrong when trying to update an user!"
+        });
+    }
+}
+
 export const deleteUser = async (req: Request, res: Response) => {
     const { email } = req.body;
 
