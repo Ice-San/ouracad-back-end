@@ -174,7 +174,7 @@ export const updateUser = async (req: Request, res: Response) => {
         const query: string = "SELECT * FROM update_user($1, $2, $3, $4, $5, $6)";
         const values: string[] = [email, firstName, lastName, course, role, status];
         const result = await client.query(query, values);
-        const data = result.rows[0];
+        const data = result.rows[0].update_user;
 
         if(!data) {
             res.status(400).send({

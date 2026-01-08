@@ -84,4 +84,51 @@ export const updateCourse = async (req: Request, res: Response) => {
             message: "Something went wrong when trying to update Courses!"
         });
     }
-} 
+}
+
+export const deleteCourse = async (req: Request, res: Response) => {
+    const { courseName } = req.body;
+
+    if(typeof courseName === "undefined") {
+        res.status(400).send({
+            status: 400,
+            message: "Something went wrong when trying to delete a course!"
+        });
+        return;
+    }
+
+    if(typeof courseName !== "string") {
+        res.status(400).send({
+            status: 400,
+            message: "Something went wrong when trying to delete a course!"
+        });
+        return;
+    }
+
+    try {
+        const query: string = "SELECT * FROM delete_course($1)";
+        const result = await client.query(query, [courseName]);
+        const data = result.rows[0].delete_course;
+
+        if(!data) {
+            res.status(400).send({
+                status: 400,
+                message: "Something went wrong before trying to delete a course!"
+            });
+            return;
+        }
+
+        res.status(200).send({
+            status: 200,
+            message: "Course was deleted successfully!",
+            success: 1
+        });
+    } catch (err) {
+        console.error("Something went wrong:", err);
+        res.status(400).send({
+            status: 400,
+            message: "Something went wrong when trying to delete a course!"
+        });
+        return;
+    }
+}
