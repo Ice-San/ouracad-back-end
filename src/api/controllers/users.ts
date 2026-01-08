@@ -1,13 +1,15 @@
-import { Request, Response, Router } from "express";
+import { Request, Response } from "express";
 
 import client from "@db/client";
 
 import { splitNames } from "@helpers/splitNames";
 
-export const getUsers = async (req: Request, res: Response) => {
+export const getUsers = async (_req: Request, res: Response) => {
+    const { userId } = res.locals;
+
     try {
-        const query: string = 'SELECT * FROM get_all_users()';
-        const result = await client.query(query);
+        const query: string = 'SELECT * FROM get_all_users($1)';
+        const result = await client.query(query, [userId]);
         const data = result.rows;
 
         if(!data) {

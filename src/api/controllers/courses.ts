@@ -29,6 +29,53 @@ export const getCourses = async (_req: Request, res: Response) => {
     }
 }
 
+export const getCourse = async (req: Request, res: Response) => {
+    const { courseName } = req.body;
+
+    if(typeof courseName === "undefined") {
+        res.status(400).send({
+            status: 400,
+            message: "Something went wrong when trying to get a course!"
+        });
+        return;
+    }
+
+    if(typeof courseName !== "string") {
+        res.status(400).send({
+            status: 400,
+            message: "Something went wrong when trying to get a course!"
+        });
+        return;
+    }
+
+    try {
+        const query: string = "SELECT * FROM get_course($1)";
+        const result = await client.query(query, [courseName]);
+        const data = result.rows[0];
+
+        if(!data) {
+            res.status(400).send({
+                status: 400,
+                message: "Something went wrong before trying to get a course!"
+            });
+            return;
+        }
+
+        res.status(200).send({
+            status: 200,
+            message: "Get course was a success!",
+            data
+        });
+    } catch (err) {
+        console.error("Something went wrong:", err);
+        res.status(400).send({
+            status: 400,
+            message: "Something went wrong when trying to get a course!"
+        });
+        return;
+    }
+}
+
 export const updateCourse = async (req: Request, res: Response) => {
     const { oldName, newName, status } = req.body;
 
