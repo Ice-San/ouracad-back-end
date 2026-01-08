@@ -1,7 +1,8 @@
 import { Router } from "express";
 
-import { getCourseStats, getStats } from "@controllers/stats";
+import { addStats, getCourseStats, getStats } from "@controllers/stats";
 
 export default Router()
                     .get("/", getStats)
-                    .post("/specific", getCourseStats);
+                    .post("/specific", getCourseStats)
+                    .post("/", addStats);
